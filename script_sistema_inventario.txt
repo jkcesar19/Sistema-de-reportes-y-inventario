@@ -1,0 +1,81 @@
+-- VISTA DE USUARIOS
+CREATE VIEW vista_usuario
+AS
+SELECT u.id, u.usuario, u.password, p.razonsocial, r.rol 
+FROM usuario u 
+INNER JOIN persona p ON u.id_persona = p.id
+INNER JOIN rol r ON r.id =u.id_rol
+WHERE u.estado = 1;
+
+-- VISTA PRODUCTO
+CREATE VIEW vista_producto
+AS
+SELECT p.producto,m.marca, p.caracteristicas 
+FROM producto p
+INNER JOIN marca m ON p.id_marca = m.id;
+
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE PERSONAS
+DELIMITER //
+CREATE PROCEDURE pro_registro_persona(IN _razonsocial VARCHAR(150),IN _num_dni INT(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100))
+BEGIN
+INSERT INTO persona(id, razonsocial, num_dni, direccion, telefono, correo, estado) VALUES (null, _razonsocial, _num_dni, _direccion, _telefono, _correo, 1);
+END;
+// 
+
+-- PROCEDIMIENTO ALMACENADO MODIFICAR DE PERSONA
+DELIMITER //
+CREATE PROCEDURE pro_actualizar_persona(IN _razonsocial VARCHAR(150),IN _num_dni INT(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100),_id INT(11))
+BEGIN
+UPDATE persona SET razonsocial= _razonsocial,num_dni=_num_dni,direccion=_direccion,telefono= _telefono,correo= _correo WHERE id=_id;
+END;
+// 
+
+-- PROCEDIMIENTO ALMACENADO ELEMINAR DE PERSONA
+DELIMITER //
+CREATE PROCEDURE pro_eliminar_persona(_id INT(11))
+BEGIN
+UPDATE persona SET estado= 0 WHERE id=_id;
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO USUARIO
+DELIMITER //
+CREATE PROCEDURE pro_registro_usuario(IN user varchar(20),IN pass varchar(20),IN per varchar(100),IN rl varchar(20))
+BEGIN
+INSERT INTO usuario(id, usuario, password, id_persona, id_rol, estado) VALUES
+(null,user,pass,(SELECT p.id FROM persona p WHERE p.razonsocial = per),(SELECT r.id FROM rol r WHERE r.rol =rl),1);
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO ACTUALIZAR USUARIO
+DELIMITER //
+CREATE PROCEDURE pro_actualizar_usuario(IN user varchar(20),IN pass varchar(20),IN per varchar(100),IN rl varchar(20), IN _id int(11))
+BEGIN
+UPDATE usuario SET usuario = user,password=pass,id_persona=(SELECT p.id FROM persona p WHERE p.razonsocial = per),id_rol=(SELECT r.id FROM rol r WHERE r.rol =rl) WHERE id = _id;
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO ELIMINAR USUARIO
+DELIMITER //
+CREATE PROCEDURE pro_eliminar_usuario(IN _id int(11))
+BEGIN
+UPDATE usuario SET estado=0 WHERE id = _id;
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE PRODUCTO
+DELIMITER //
+CREATE PROCEDURE pro_registro_producto(IN _producto varchar(100), IN _marca varchar(50), IN _modelo varchar(50), IN carac varchar(100))
+BEGIN
+INSERT INTO producto(id, producto, id_marca, id_modelo, caracteristicas) VALUES (null,_producto,(SELECT m.id FROM marca m WHERE m.marca = _marca),(SELECT m.id FROM modelo m WHERE m.modelo = _modelo),carac);
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO ACTUALIZAR PRODUCTO
+DELIMITER //
+CREATE PROCEDURE pro_actualizar_producto(IN _producto varchar(100),IN _marca varchar(50), IN _modelo varchar(50), IN carac varchar(100),_id int(11))
+BEGIN
+UPDATE producto SET producto = _producto, id_marca=(SELECT m.id FROM marca m WHERE m.marca = _marca), id_modelo = (SELECT m.id FROM modelo m WHERE m.modelo = _modelo),caracteristicas = carac  WHERE id = _id;
+END;
+//
