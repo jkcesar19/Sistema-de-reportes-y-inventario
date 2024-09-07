@@ -1,19 +1,13 @@
 package com.system.view.product;
-
-
-import com.system.view.user.*;
-import com.system.business.UsuarioBo;
-import com.system.identity.Usuario;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+
 
 public class VistaProduc extends javax.swing.JPanel {
 
-    Usuario objUsuario = new Usuario();
     public static char op;
     protected static boolean estado = false;
 
@@ -29,7 +23,7 @@ public class VistaProduc extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        PanelVistaUsuario = new javax.swing.JPanel();
+        PanelVistaProducto = new javax.swing.JPanel();
         btnAdd = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         btnListar = new javax.swing.JPanel();
@@ -58,20 +52,20 @@ public class VistaProduc extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        PanelVistaUsuario.setBackground(new java.awt.Color(0, 153, 0));
+        PanelVistaProducto.setBackground(new java.awt.Color(0, 153, 0));
 
-        javax.swing.GroupLayout PanelVistaUsuarioLayout = new javax.swing.GroupLayout(PanelVistaUsuario);
-        PanelVistaUsuario.setLayout(PanelVistaUsuarioLayout);
-        PanelVistaUsuarioLayout.setHorizontalGroup(
-            PanelVistaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelVistaProductoLayout = new javax.swing.GroupLayout(PanelVistaProducto);
+        PanelVistaProducto.setLayout(PanelVistaProductoLayout);
+        PanelVistaProductoLayout.setHorizontalGroup(
+            PanelVistaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        PanelVistaUsuarioLayout.setVerticalGroup(
-            PanelVistaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        PanelVistaProductoLayout.setVerticalGroup(
+            PanelVistaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 340, Short.MAX_VALUE)
         );
 
-        jPanel2.add(PanelVistaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 750, 340));
+        jPanel2.add(PanelVistaProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 750, 340));
 
         btnAdd.setBackground(new java.awt.Color(21, 67, 96));
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,62 +266,62 @@ public class VistaProduc extends javax.swing.JPanel {
     }//GEN-LAST:event_btnListarMousePressed
 
     private void btnModificarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMousePressed
-        if (!"".equals(lista_eliminar.usu))
-        {
-            try
-            {
-                op = 'M';
-                estado = true;
-                this.cargar_ragistro_actualizar();
-            } catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(null, "Error " + e);
-            }
-
-        } else
-        {
-            JOptionPane.showMessageDialog(this, "Seleccione el usuario",
-                    "TRABAJADOR", JOptionPane.WARNING_MESSAGE);
-        }
-
+//        if (!"".equals(lista_eliminar.usu))
+//        {
+//            try
+//            {
+//                op = 'M';
+//                estado = true;
+//                this.cargar_ragistro_actualizar();
+//            } catch (Exception e)
+//            {
+//                JOptionPane.showMessageDialog(null, "Error " + e);
+//            }
+//
+//        } else
+//        {
+//            JOptionPane.showMessageDialog(this, "Seleccione el usuario",
+//                    "TRABAJADOR", JOptionPane.WARNING_MESSAGE);
+//        }
+//
     }//GEN-LAST:event_btnModificarMousePressed
 
     private void btnEliminarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMousePressed
-        if (!"".equals(lista_eliminar.usu))
-        {
-            char opt = 'E';
-            try
-            {
-
-                Usuario usuario = UsuarioBo.validarUsuarioId(lista_eliminar.per, lista_eliminar.usu);
-                int id = usuario.getId();
-                if (opt == 'E')
-                {
-                    objUsuario.setId(id);
-                    int rpta = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar",
-                            "Usuario", JOptionPane.YES_NO_OPTION);
-                    if (rpta == 0)
-                    {
-                        if (UsuarioBo.eliminarUsuario(objUsuario))
-                        {
-                            JOptionPane.showMessageDialog(this, "Se Eliminó Correctamente", "Usuario",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            this.cargar_tabla();
-                        } else
-                        {
-                            JOptionPane.showMessageDialog(this, "No se pudo Eliminar", "Usuario",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                }
-            } catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Usuario", JOptionPane.ERROR_MESSAGE);
-            }
-        } else
-        {
-            JOptionPane.showMessageDialog(this, "Seleccione el Usuario", "Usuario", JOptionPane.ERROR_MESSAGE);
-        }
+//        if (!"".equals(lista_eliminar.usu))
+//        {
+//            char opt = 'E';
+//            try
+//            {
+//
+//                Usuario usuario = UsuarioBo.validarUsuarioId(lista_eliminar.per, lista_eliminar.usu);
+//                int id = usuario.getId();
+//                if (opt == 'E')
+//                {
+//                    objUsuario.setId(id);
+//                    int rpta = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar",
+//                            "Usuario", JOptionPane.YES_NO_OPTION);
+//                    if (rpta == 0)
+//                    {
+//                        if (UsuarioBo.eliminarUsuario(objUsuario))
+//                        {
+//                            JOptionPane.showMessageDialog(this, "Se Eliminó Correctamente", "Usuario",
+//                                    JOptionPane.INFORMATION_MESSAGE);
+//                            this.cargar_tabla();
+//                        } else
+//                        {
+//                            JOptionPane.showMessageDialog(this, "No se pudo Eliminar", "Usuario",
+//                                    JOptionPane.ERROR_MESSAGE);
+//                        }
+//                    }
+//                }
+//            } catch (Exception e)
+//            {
+//                JOptionPane.showMessageDialog(this, e.getMessage(), "Usuario", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else
+//        {
+//            JOptionPane.showMessageDialog(this, "Seleccione el Usuario", "Usuario", JOptionPane.ERROR_MESSAGE);
+//        }
 
     }//GEN-LAST:event_btnEliminarMousePressed
 
@@ -369,7 +363,7 @@ public class VistaProduc extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected static javax.swing.JPanel PanelVistaUsuario;
+    protected static javax.swing.JPanel PanelVistaProducto;
     private javax.swing.JPanel btnAdd;
     private javax.swing.JPanel btnEliminar;
     private javax.swing.JPanel btnListar;
@@ -389,22 +383,22 @@ public class VistaProduc extends javax.swing.JPanel {
         p1.setSize(750, 343);
         p1.setLocation(0, 0);
 
-        PanelVistaUsuario.removeAll();
-        PanelVistaUsuario.add(p1, BorderLayout.CENTER);
-        PanelVistaUsuario.revalidate();
-        PanelVistaUsuario.repaint();
+        PanelVistaProducto.removeAll();
+        PanelVistaProducto.add(p1, BorderLayout.CENTER);
+        PanelVistaProducto.revalidate();
+        PanelVistaProducto.repaint();
     }
 
     private void cargar_ragistro_actualizar() throws Exception {
         // Abrir sección
-        registro_actualiza p1 = new registro_actualiza();
+        registro_producto p1 = new registro_producto();
         p1.setSize(750, 343);
         p1.setLocation(0, 0);
 
-        PanelVistaUsuario.removeAll();
-        PanelVistaUsuario.add(p1, BorderLayout.CENTER);
-        PanelVistaUsuario.revalidate();
-        PanelVistaUsuario.repaint();
+        PanelVistaProducto.removeAll();
+        PanelVistaProducto.add(p1, BorderLayout.CENTER);
+        PanelVistaProducto.revalidate();
+        PanelVistaProducto.repaint();
     }
 
     public void Te_ama(String si) {

@@ -13,6 +13,8 @@ public class Person {
    private String correo; 
    private int estado;
    private int dni;
+   private int id_p;
+   private int id_d;
 
     public int getDni() {
         return dni;
@@ -68,6 +70,22 @@ public class Person {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public int getId_p() {
+        return id_p;
+    }
+
+    public void setId_p(int id_p) {
+        this.id_p = id_p;
+    }
+
+    public int getId_d() {
+        return id_d;
+    }
+
+    public void setId_d(int id_d) {
+        this.id_d = id_d;
     }
 
     @Override

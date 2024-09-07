@@ -1,7 +1,6 @@
 package com.system.view.product;
 
-import com.system.view.person.*;
-import com.system.business.PersonBo;
+import com.system.business.ProductoBo;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -101,7 +100,7 @@ public class lista_eliminar extends javax.swing.JPanel {
     private void loadTablePerson() {
         try {
             TableColumn columna;
-            this.PersonTableModel = PersonBo.ListaTable();
+            this.PersonTableModel = ProductoBo.ListaTable();
             this.PersonTable.setModel(this.PersonTableModel);
 //            setAnchoColumnas();
             columna = this.PersonTable.getColumnModel().getColumn(0);

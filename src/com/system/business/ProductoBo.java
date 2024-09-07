@@ -8,6 +8,7 @@ import com.system.identity.interfaces.ProductoDao;
 import java.sql.Connection;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -56,5 +57,28 @@ public class ProductoBo {
                 con.close();
             }
         }
+    }
+       public static DefaultTableModel ListaTable() throws Exception {
+        DefaultTableModel usuarioTableModel = null;
+        Connection con = Conexion.getConexion();
+        try {
+            ProductoDao personDao = new ProductoImpldao(con);
+            Vector datoPerson = personDao.Lista();
+            Vector columnas = new Vector();
+
+            columnas.add("Producto");
+            columnas.add("Marca");
+            columnas.add("Caracteristicas");
+
+            usuarioTableModel = new DefaultTableModel(datoPerson, columnas);
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+        return usuarioTableModel;
     }
 }

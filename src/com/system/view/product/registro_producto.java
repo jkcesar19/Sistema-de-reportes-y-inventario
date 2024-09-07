@@ -1,20 +1,25 @@
 package com.system.view.product;
 
 
+import com.system.business.MarcaBo;
+import com.system.business.ProductoBo;
 import com.system.conexion.TextPrompt;
 import com.system.identity.Producto;
-import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 
 public class registro_producto extends javax.swing.JPanel {
 
    Producto objProducto = new Producto();
+   private DefaultComboBoxModel Marca;
     char opt = 'N';
 
     public registro_producto() {
         initComponents();
         plaseholder();
+        cargarComboMarca();
 
     }
 
@@ -127,8 +132,19 @@ public class registro_producto extends javax.swing.JPanel {
 
     private void plaseholder() {
         TextPrompt prueba0 = new TextPrompt(" Ingrese el producto a registrar", this.jtex_producto);
-        
+         TextPrompt prueba1 = new TextPrompt(" Ingrese el caracteristicas del producto", this.jtex_caracteristicas);
 
+    }
+    private void cargarComboMarca() {
+        try {
+            Marca = MarcaBo.obtenerMarca();
+            jComboBxMarca.setModel(Marca);
+            jComboBxMarca.setPreferredSize(new Dimension(600, 22));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void registrar() {

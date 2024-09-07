@@ -17,8 +17,8 @@ public class MarcaBo {
         DefaultComboBoxModel unidad = null;
         Connection con = Conexion.getConexion();
         try {
-            MarcaDao unid = (MarcaDao) new MarcaImpldao(con);
-            Vector vectorUnidad = unid.Lista();
+            MarcaDao unid = new MarcaImpldao(con);
+            Vector vectorUnidad = unid.Combobox();
             unidad = new DefaultComboBoxModel(vectorUnidad);
         } catch (Exception e) {
             throw e;

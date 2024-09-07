@@ -5,7 +5,6 @@ import com.system.business.RolBo;
 import com.system.business.UsuarioBo;
 import com.system.conexion.TextPrompt;
 import com.system.identity.Usuario;
-import static com.system.view.user.VistaUsuario.PanelVistaUsuario;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
@@ -13,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import static com.system.view.user.VistaUsuario.PanelVistaUsuario;
 
 
 public class registro_actualiza extends javax.swing.JPanel {

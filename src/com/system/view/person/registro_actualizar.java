@@ -34,6 +34,7 @@ public class registro_actualizar extends javax.swing.JPanel {
         jtex_corr = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jtex_nunnciado_registro = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(739, 325));
 
@@ -69,6 +70,10 @@ public class registro_actualizar extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jtex_nunnciado_registro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jtex_nunnciado_registro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jtex_nunnciado_registro.setText("REGSITRO DE TRABAJADOR ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,11 +93,17 @@ public class registro_actualizar extends javax.swing.JPanel {
                                 .addComponent(jtex_tel))
                             .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(12, 12, 12))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(jtex_nunnciado_registro, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(17, 17, 17)
+                .addComponent(jtex_nunnciado_registro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtex_nom, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -102,7 +113,7 @@ public class registro_actualizar extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtex_corr, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtex_tel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
@@ -149,6 +160,7 @@ public class registro_actualizar extends javax.swing.JPanel {
     private javax.swing.JTextField jtex_direc;
     private javax.swing.JTextField jtex_dni;
     private javax.swing.JTextField jtex_nom;
+    private javax.swing.JLabel jtex_nunnciado_registro;
     private javax.swing.JTextField jtex_tel;
     // End of variables declaration//GEN-END:variables
 

@@ -15,12 +15,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PersonBo {
 
-    public static DefaultTableModel ListaTable() throws Exception {
+    public static DefaultTableModel ListaTable(int ip) throws Exception {
         DefaultTableModel usuarioTableModel = null;
         Connection con = Conexion.getConexion();
         try {
             PersonDao personDao = new PersonImpldao(con);
-            Vector datoPerson = personDao.Lista();
+            Vector datoPerson = personDao.Lista_tipo_persona(ip);
             Vector columnas = new Vector();
 
             columnas.add("Nombres");

@@ -28,8 +28,8 @@ public class PersonImpldao implements PersonDao {
 
     @Override
     public Vector Combobox() throws SQLException {
-       Vector persona = new Vector();
-        String sql = "SELECT razonsocial FROM persona WHERE estado = "+1;
+        Vector persona = new Vector();
+        String sql = "SELECT razonsocial FROM persona WHERE estado = " + 1;
         st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
@@ -42,11 +42,11 @@ public class PersonImpldao implements PersonDao {
 
     @Override
     public Person validarPerson(String nom, int dni) throws SQLException {
-         Person person = null;
+        Person person = null;
         ResultSet rs = null;
         PreparedStatement pst = null;
         try {
-            String sql = "SELECT id FROM persona  WHERE razonsocial = '"+nom+"' AND num_dni = "+dni+" AND estado = "+1;
+            String sql = "SELECT id FROM persona  WHERE razonsocial = '" + nom + "' AND num_dni = " + dni + " AND estado = " + 1;
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery(sql);
             if (rs.next()) {
@@ -63,20 +63,20 @@ public class PersonImpldao implements PersonDao {
             }
         }
         return person;
-    
+
     }
 
     @Override
-    public Vector Lista() throws SQLException {
-         Vector listaPerson = new Vector();
-        String sql = "SELECT * FROM persona WHERE estado = "+1;
+    public Vector Lista_tipo_persona(int tipo_perosna) throws SQLException {
+        Vector listaPerson = new Vector();
+        String sql = "SELECT * FROM persona WHERE estado = " + 1 + " AND id_tipo_persona =" + tipo_perosna;
         st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
             Vector person = new Vector();
 //            person.add(rs.getInt("idpersona"));
             person.add(rs.getString("razonsocial"));
-            person.add(rs.getInt("num_dni"));
+            person.add(rs.getInt("num_doc"));
             person.add(rs.getString("direccion"));
             person.add(rs.getInt("telefono"));
             person.add(rs.getString("correo"));
@@ -88,15 +88,17 @@ public class PersonImpldao implements PersonDao {
 
     @Override
     public boolean grabar(Object object) throws SQLException {
-   objPerson = (Person) object;
+        objPerson = (Person) object;
         try {
-            String sql = "{CALL,pro_registro_persona(?,?,?,?,?)}";
+            String sql = "{CALL,pro_registro_persona(?,?,?,?,?,?,?)}";
             cst = con.prepareCall(sql);
             cst.setString(1, objPerson.getRazonsocial());
-            cst.setInt(2, objPerson.getDni());
-            cst.setString(3, objPerson.getDireccion());
-            cst.setString(4, objPerson.getTelefono());
-            cst.setString(5, objPerson.getCorreo());
+            cst.setInt(2, objPerson.getId_d());
+            cst.setInt(3, objPerson.getDni());
+            cst.setString(4, objPerson.getDireccion());
+            cst.setString(5, objPerson.getTelefono());
+            cst.setString(6, objPerson.getCorreo());
+            cst.setInt(7, objPerson.getId_p());
             cst.execute();
             cst.close();
             return true;
@@ -124,20 +126,28 @@ public class PersonImpldao implements PersonDao {
     public boolean modificar(Object object) throws SQLException {
         objPerson = (Person) object;
         try {
-            String sql = "{CALL,pro_actualizar_persona(?,?,?,?,?,?)}";
+            String sql = "{CALL,pro_actualizar_persona(?,?,?,?,?,?,?,?)}";
             cst = con.prepareCall(sql);
             cst.setString(1, objPerson.getRazonsocial());
-            cst.setInt(2, objPerson.getDni());
-            cst.setString(3, objPerson.getDireccion());
-            cst.setString(4, objPerson.getTelefono());
-            cst.setString(5, objPerson.getCorreo());
-            cst.setInt(6, objPerson.getId());
+            cst.setInt(2, objPerson.getId_d());
+            cst.setInt(3, objPerson.getDni());
+            cst.setString(4, objPerson.getDireccion());
+            cst.setString(5, objPerson.getTelefono());
+            cst.setString(6, objPerson.getCorreo());
+            cst.setInt(7, objPerson.getId_p());
+            cst.setInt(8, objPerson.getId());
             cst.execute();
             cst.close();
             return true;
         } catch (SQLException e) {
             throw e;
         }
+    }
+
+    @Override
+    public Vector Lista() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); 
+//To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -1,7 +1,7 @@
 package com.system.identity.implementation;
 
-import com.system.identity.Rol;
-import com.system.identity.interfaces.RolDao;
+import com.system.identity.Marca;
+import com.system.identity.interfaces.MarcaDao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import java.util.Vector;
  *
  * @author llagu
  */
-public class MarcaImpldao implements RolDao{
+public class MarcaImpldao implements MarcaDao{
 
     private Connection con;
     private Statement st;
@@ -23,22 +23,14 @@ public class MarcaImpldao implements RolDao{
 
     @Override
     public Vector Lista() throws SQLException {
-        Vector unidad = new Vector();
-        String sql = "SELECT id, marca FROM marca";
-        st = con.createStatement();
-        ResultSet rs = st.executeQuery(sql);
-        while (rs.next()) {
-            Rol uni = new Rol();
-            uni.setId(rs.getInt("id"));
-            uni.setRol(rs.getString("marca"));
-            unidad.add(uni);
-        }
-        return unidad;
+        throw new UnsupportedOperationException("Not supported yet.");
+//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean grabar(Object object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
+//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -49,6 +41,20 @@ public class MarcaImpldao implements RolDao{
     @Override
     public boolean modificar(Object object) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Vector Combobox() throws SQLException {
+         Vector unidad = new Vector();
+        String sql = "SELECT  marca FROM marca";
+        st = con.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()) {
+            Marca uni = new Marca();
+            uni.setMarca(rs.getString("marca"));
+            unidad.add(uni);
+        }
+        return unidad;
     }
 
 }

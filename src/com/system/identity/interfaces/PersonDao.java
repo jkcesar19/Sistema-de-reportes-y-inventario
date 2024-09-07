@@ -9,5 +9,6 @@ import java.util.Vector;
 
 public interface PersonDao extends GeneralDao{
     public Vector Combobox() throws SQLException;
+        public Vector Lista_tipo_persona(int id) throws SQLException;
      public Person validarPerson(String nom, int dni) throws SQLException;
 }

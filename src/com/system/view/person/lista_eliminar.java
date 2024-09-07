@@ -1,6 +1,7 @@
 package com.system.view.person;
 
 import com.system.business.PersonBo;
+import com.system.view.jpRegistro;
 import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -16,6 +17,7 @@ public class lista_eliminar extends javax.swing.JPanel {
     protected static String tel;
     protected static String est;
     protected static String correo;
+    
 
     public lista_eliminar() {
         initComponents();
@@ -30,6 +32,7 @@ public class lista_eliminar extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         PersonTable = new com.system.table.Table();
+        jtex_enunciado_lista = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 0, 204));
         setPreferredSize(new java.awt.Dimension(739, 331));
@@ -57,6 +60,10 @@ public class lista_eliminar extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(PersonTable);
 
+        jtex_enunciado_lista.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jtex_enunciado_lista.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jtex_enunciado_lista.setText("LISTA DE TRABAJADORES");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -65,13 +72,19 @@ public class lista_eliminar extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jtex_enunciado_lista, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jtex_enunciado_lista)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -82,7 +95,7 @@ public class lista_eliminar extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -95,12 +108,13 @@ public class lista_eliminar extends javax.swing.JPanel {
     private com.system.table.Table PersonTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jtex_enunciado_lista;
     // End of variables declaration//GEN-END:variables
 
     private void loadTablePerson() {
         try {
             TableColumn columna;
-            this.PersonTableModel = PersonBo.ListaTable();
+            this.PersonTableModel = PersonBo.ListaTable(jpRegistro.tipo_persona);
             this.PersonTable.setModel(this.PersonTableModel);
 //            setAnchoColumnas();
             columna = this.PersonTable.getColumnModel().getColumn(0);
@@ -112,7 +126,7 @@ public class lista_eliminar extends javax.swing.JPanel {
     private void cargar_datos_actualizar_eliminar(MouseEvent evt) {
         try {
             index = this.PersonTable.getSelectedRow();
-           
+
             nom = this.PersonTable.getValueAt(index, 0).toString();
             dni = Integer.parseInt(this.PersonTable.getValueAt(index, 1).toString());
             dir = this.PersonTable.getValueAt(index, 2).toString();
