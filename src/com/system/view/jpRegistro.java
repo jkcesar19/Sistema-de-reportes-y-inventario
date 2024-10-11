@@ -1,7 +1,9 @@
 package com.system.view;
 
-import com.system.view.person.VistaPers;
+import com.system.view.cliente.VistaCliente;
+import com.system.view.trabajador.VistaPers;
 import com.system.view.product.VistaProduc;
+import com.system.view.proveedor.VistaProveedor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,9 +32,9 @@ public class jpRegistro extends javax.swing.JPanel {
         btnOtros = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         panelSegundario = new javax.swing.JPanel();
-        btnPersonal1 = new javax.swing.JPanel();
+        btnProveedor = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        btnPersonal2 = new javax.swing.JPanel();
+        btnCliente = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -150,23 +152,23 @@ public class jpRegistro extends javax.swing.JPanel {
         panelSegundario.setLayout(panelSegundarioLayout);
         panelSegundarioLayout.setHorizontalGroup(
             panelSegundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 851, Short.MAX_VALUE)
+            .addGap(0, 842, Short.MAX_VALUE)
         );
         panelSegundarioLayout.setVerticalGroup(
             panelSegundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        btnPersonal1.setBackground(new java.awt.Color(21, 67, 96));
-        btnPersonal1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnProveedor.setBackground(new java.awt.Color(21, 67, 96));
+        btnProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnPersonal1MouseEntered(evt);
+                btnProveedorMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnPersonal1MouseExited(evt);
+                btnProveedorMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnPersonal1MousePressed(evt);
+                btnProveedorMousePressed(evt);
             }
         });
 
@@ -175,33 +177,33 @@ public class jpRegistro extends javax.swing.JPanel {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/system/img/person.png"))); // NOI18N
         jLabel5.setText("Proveedor");
 
-        javax.swing.GroupLayout btnPersonal1Layout = new javax.swing.GroupLayout(btnPersonal1);
-        btnPersonal1.setLayout(btnPersonal1Layout);
-        btnPersonal1Layout.setHorizontalGroup(
-            btnPersonal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnPersonal1Layout.createSequentialGroup()
+        javax.swing.GroupLayout btnProveedorLayout = new javax.swing.GroupLayout(btnProveedor);
+        btnProveedor.setLayout(btnProveedorLayout);
+        btnProveedorLayout.setHorizontalGroup(
+            btnProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnProveedorLayout.createSequentialGroup()
                 .addContainerGap(30, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(21, 21, 21))
         );
-        btnPersonal1Layout.setVerticalGroup(
-            btnPersonal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnPersonal1Layout.createSequentialGroup()
+        btnProveedorLayout.setVerticalGroup(
+            btnProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnProveedorLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnPersonal2.setBackground(new java.awt.Color(21, 67, 96));
-        btnPersonal2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCliente.setBackground(new java.awt.Color(21, 67, 96));
+        btnCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnPersonal2MouseEntered(evt);
+                btnClienteMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnPersonal2MouseExited(evt);
+                btnClienteMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnPersonal2MousePressed(evt);
+                btnClienteMousePressed(evt);
             }
         });
 
@@ -210,18 +212,18 @@ public class jpRegistro extends javax.swing.JPanel {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/system/img/person.png"))); // NOI18N
         jLabel6.setText("Cliente");
 
-        javax.swing.GroupLayout btnPersonal2Layout = new javax.swing.GroupLayout(btnPersonal2);
-        btnPersonal2.setLayout(btnPersonal2Layout);
-        btnPersonal2Layout.setHorizontalGroup(
-            btnPersonal2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnPersonal2Layout.createSequentialGroup()
+        javax.swing.GroupLayout btnClienteLayout = new javax.swing.GroupLayout(btnCliente);
+        btnCliente.setLayout(btnClienteLayout);
+        btnClienteLayout.setHorizontalGroup(
+            btnClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnClienteLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        btnPersonal2Layout.setVerticalGroup(
-            btnPersonal2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnPersonal2Layout.createSequentialGroup()
+        btnClienteLayout.setVerticalGroup(
+            btnClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnClienteLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -238,8 +240,8 @@ public class jpRegistro extends javax.swing.JPanel {
                     .addComponent(btnOtros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPersonal1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPersonal2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(39, 39, 39)
                 .addComponent(panelSegundario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -252,16 +254,16 @@ public class jpRegistro extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnPersonal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnPersonal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnOtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                        .addContainerGap(105, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -370,41 +372,61 @@ public class jpRegistro extends javax.swing.JPanel {
         this.btnOtros.setBackground(new Color(21, 67, 96));
     }//GEN-LAST:event_btnOtrosMouseExited
 
-    private void btnPersonal1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal1MouseEntered
-        this.btnPersonal1.setBackground(new Color(40, 116, 166));
-        this.btnPersonal1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_btnPersonal1MouseEntered
+    private void btnProveedorMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedorMouseEntered
+//        this.btnProveedor.setBackground(new Color(40, 116, 166));
+        this.btnProveedor.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnProveedorMouseEntered
 
-    private void btnPersonal1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal1MouseExited
-        this.btnPersonal1.setBackground(new Color(21, 67, 96));
-    }//GEN-LAST:event_btnPersonal1MouseExited
+    private void btnProveedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedorMouseExited
+        this.btnProveedor.setBackground(new Color(21, 67, 96));
+    }//GEN-LAST:event_btnProveedorMouseExited
 
-    private void btnPersonal1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal1MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPersonal1MousePressed
+    private void btnProveedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedorMousePressed
+         op = 2;
+        color_select(op);
+        // Abrir sección
+        tipo_persona = 2;
+        VistaProveedor p1 = new VistaProveedor();
+        p1.setSize(789, 449);
+        p1.setLocation(0, 0);
 
-    private void btnPersonal2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal2MouseEntered
-        this.btnPersonal2.setBackground(new Color(40, 116, 166));
-        this.btnPersonal2.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_btnPersonal2MouseEntered
+        panelSegundario.removeAll();
+        panelSegundario.add(p1, BorderLayout.CENTER);
+        panelSegundario.revalidate();
+        panelSegundario.repaint();
+    }//GEN-LAST:event_btnProveedorMousePressed
 
-    private void btnPersonal2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal2MouseExited
-        this.btnPersonal2.setBackground(new Color(21, 67, 96));
-    }//GEN-LAST:event_btnPersonal2MouseExited
+    private void btnClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClienteMouseEntered
+//        this.btnCliente.setBackground(new Color(40, 116, 166));
+        this.btnCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btnClienteMouseEntered
 
-    private void btnPersonal2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonal2MousePressed
+    private void btnClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClienteMouseExited
+        this.btnCliente.setBackground(new Color(21, 67, 96));
+    }//GEN-LAST:event_btnClienteMouseExited
+
+    private void btnClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClienteMousePressed
         op = 3;
         color_select(op);
-    }//GEN-LAST:event_btnPersonal2MousePressed
+          tipo_persona = 3;
+        VistaCliente p1 = new VistaCliente();
+        p1.setSize(789, 449);
+        p1.setLocation(0, 0);
+
+        panelSegundario.removeAll();
+        panelSegundario.add(p1, BorderLayout.CENTER);
+        panelSegundario.revalidate();
+        panelSegundario.repaint();
+    }//GEN-LAST:event_btnClienteMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel btnCliente;
     private javax.swing.JPanel btnEquipo;
     private javax.swing.JPanel btnMaterial;
     private javax.swing.JPanel btnOtros;
     private javax.swing.JPanel btnPersonal;
-    private javax.swing.JPanel btnPersonal1;
-    private javax.swing.JPanel btnPersonal2;
+    private javax.swing.JPanel btnProveedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -419,13 +441,14 @@ public class jpRegistro extends javax.swing.JPanel {
         switch (op) {
             case 1:
                this.btnPersonal.setBackground(new Color(40, 116, 166));
-                System.out.println("HOla animal");
+                System.out.println("HOla animal 1");
                 break;
             case 2:
-                // secuencia de sentencias.
+               this.btnProveedor.setBackground(new Color(40, 116, 166));
+                System.out.println("HOla animal 2");
                 break;
             case 3:
-                this.btnPersonal2.setBackground(new Color(40, 116, 166));
+                this.btnCliente.setBackground(new Color(40, 116, 166));
                 System.out.println("HOla animal 3");
                 break;
             case 4:

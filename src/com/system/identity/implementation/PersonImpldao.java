@@ -27,9 +27,9 @@ public class PersonImpldao implements PersonDao {
     }
 
     @Override
-    public Vector Combobox() throws SQLException {
+    public Vector Combobox(int t) throws SQLException {
         Vector persona = new Vector();
-        String sql = "SELECT razonsocial FROM persona WHERE estado = " + 1;
+        String sql = "SELECT razonsocial FROM persona WHERE estado = " + 1+" AND id_tipo_persona =" +t;
         st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
@@ -41,12 +41,13 @@ public class PersonImpldao implements PersonDao {
     }
 
     @Override
-    public Person validarPerson(String nom, int dni) throws SQLException {
+    public Person validarPerson(String nom, String doc) throws SQLException {
         Person person = null;
         ResultSet rs = null;
         PreparedStatement pst = null;
+  //"SELECT `id`, `razonsocial`, `id_tipo_documento`, `num_doc`, `direccion`, `telefono`, `correo`, `id_tipo_persona`, `estado` FROM `persona` WHERE 1"      
         try {
-            String sql = "SELECT id FROM persona  WHERE razonsocial = '" + nom + "' AND num_dni = " + dni + " AND estado = " + 1;
+            String sql = "SELECT id FROM persona  WHERE razonsocial = '" + nom + "' AND num_doc = '" + doc + "' AND estado = " + 1;
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery(sql);
             if (rs.next()) {
@@ -76,7 +77,7 @@ public class PersonImpldao implements PersonDao {
             Vector person = new Vector();
 //            person.add(rs.getInt("idpersona"));
             person.add(rs.getString("razonsocial"));
-            person.add(rs.getInt("num_doc"));
+            person.add(rs.getString("num_doc"));
             person.add(rs.getString("direccion"));
             person.add(rs.getInt("telefono"));
             person.add(rs.getString("correo"));
@@ -94,7 +95,7 @@ public class PersonImpldao implements PersonDao {
             cst = con.prepareCall(sql);
             cst.setString(1, objPerson.getRazonsocial());
             cst.setInt(2, objPerson.getId_d());
-            cst.setInt(3, objPerson.getDni());
+            cst.setString(3, objPerson.getDoc());
             cst.setString(4, objPerson.getDireccion());
             cst.setString(5, objPerson.getTelefono());
             cst.setString(6, objPerson.getCorreo());
@@ -129,13 +130,11 @@ public class PersonImpldao implements PersonDao {
             String sql = "{CALL,pro_actualizar_persona(?,?,?,?,?,?,?,?)}";
             cst = con.prepareCall(sql);
             cst.setString(1, objPerson.getRazonsocial());
-            cst.setInt(2, objPerson.getId_d());
-            cst.setInt(3, objPerson.getDni());
-            cst.setString(4, objPerson.getDireccion());
-            cst.setString(5, objPerson.getTelefono());
-            cst.setString(6, objPerson.getCorreo());
-            cst.setInt(7, objPerson.getId_p());
-            cst.setInt(8, objPerson.getId());
+            cst.setString(2, objPerson.getDoc());
+            cst.setString(3, objPerson.getDireccion());
+            cst.setString(4, objPerson.getTelefono());
+            cst.setString(5, objPerson.getCorreo());
+            cst.setInt(6, objPerson.getId());
             cst.execute();
             cst.close();
             return true;

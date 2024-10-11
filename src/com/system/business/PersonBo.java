@@ -100,7 +100,7 @@ public class PersonBo {
             }
         }
     }
-      public static Person validarPerson(String nom,int dni) throws Exception {
+      public static Person validarPerson(String nom, String dni) throws Exception {
         Connection con = null;
         Person material = null;
         try {
@@ -118,12 +118,12 @@ public class PersonBo {
         }
         return material;
     }
-       public static DefaultComboBoxModel obtenerPersona() throws Exception {
+       public static DefaultComboBoxModel obtenerPersona(int t) throws Exception {
         DefaultComboBoxModel persona = null;
         Connection con = Conexion.getConexion();
         try {
             PersonDao personDao = new PersonImpldao(con);
-            Vector vectorPersona = personDao.Combobox();
+            Vector vectorPersona = personDao.Combobox(t);
             persona = new DefaultComboBoxModel(vectorPersona);
         } catch (Exception e) {
             throw e;

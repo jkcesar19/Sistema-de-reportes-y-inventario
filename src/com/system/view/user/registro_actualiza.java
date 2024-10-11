@@ -5,6 +5,7 @@ import com.system.business.RolBo;
 import com.system.business.UsuarioBo;
 import com.system.conexion.TextPrompt;
 import com.system.identity.Usuario;
+import com.system.view.JFDashboard;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
@@ -232,7 +233,7 @@ public class registro_actualiza extends javax.swing.JPanel {
 
     private void cargarComboPersona() {
         try {
-            Persona = PersonBo.obtenerPersona();
+            Persona = PersonBo.obtenerPersona(JFDashboard.tipo_p);
             ComboPersona.setModel(Persona);
             ComboPersona.setPreferredSize(new Dimension(600, 22));
 

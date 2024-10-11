@@ -14,20 +14,28 @@ SELECT p.producto,m.marca, p.caracteristicas
 FROM producto p
 INNER JOIN marca m ON p.id_marca = m.id;
 
+-- VISTA PERSONA
+CREATE VIEW vista_persona
+AS
+SELECT p.id, p.razonsocial, td.tipo_documento, p.num_doc, p.direccion, p.telefono, p.correo, p.id_tipo_persona 
+FROM persona p
+INNER JOIN tipo_documento td ON td.id_tipo_documento = p.id_tipo_documento
+WHERE p.estado = 1;
+
 
 -- PROCEDIMIENTO ALMACENADO REGISTRO DE PERSONAS
 DELIMITER //
-CREATE PROCEDURE pro_registro_persona(IN _razonsocial VARCHAR(150),IN _id_documento int(11),IN _num_dni INT(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100), IN _id_tipo_persona int(11))
+CREATE PROCEDURE pro_registro_persona(IN _razonsocial VARCHAR(150),IN _id_documento int(11),IN _num_doc varchar(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100), IN _id_tipo_persona int(11))
 BEGIN
-INSERT INTO persona(id, razonsocial,id_documento, num_doc, direccion, telefono, correo,id_tipo_persona, estado) VALUES (null, _razonsocial,_id_documento, _num_dni, _direccion, _telefono, _correo,_id_tipo_persona, 1);
+INSERT INTO persona(id, razonsocial, id_tipo_documento, num_doc, direccion, telefono, correo, id_tipo_persona, estado) VALUES (null, _razonsocial,_id_documento, _num_doc, _direccion, _telefono, _correo,_id_tipo_persona, 1);
 END;
 // 
 
 -- PROCEDIMIENTO ALMACENADO MODIFICAR DE PERSONA
 DELIMITER //
-CREATE PROCEDURE pro_actualizar_persona(IN _razonsocial VARCHAR(150),IN _id_documento int(11),IN _num_dni INT(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100), IN _id_tipo_persona int(11),_id INT(11))
+CREATE PROCEDURE pro_actualizar_persona(IN _razonsocial VARCHAR(150),IN _num_doc VARCHAR(15),IN _direccion VARCHAR(150),IN _telefono VARCHAR(11),IN _correo VARCHAR(100),_id INT(11))
 BEGIN
-UPDATE persona SET razonsocial= _razonsocial,id_documento=_id_documento,num_doc=_num_dni,direccion=_direccion,telefono= _telefono,correo= _correo,id_tipo_persona=_id_tipo_persona WHERE id=_id;
+UPDATE persona SET razonsocial= _razonsocial, num_doc=_num_doc, direccion=_direccion, telefono= _telefono, correo= _correo WHERE id=_id;
 END;
 // 
 

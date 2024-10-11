@@ -1,6 +1,6 @@
 package com.system.view;
 
-import com.system.view.person.VistaPers;
+import com.system.view.trabajador.VistaPers;
 import java.awt.BorderLayout;
 
 

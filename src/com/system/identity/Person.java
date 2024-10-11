@@ -3,7 +3,7 @@ package com.system.identity;
 
 /**
  *
- * @author llagu
+ * @author llaguento carlos cesar
  */
 public class Person {
    private int id;
@@ -12,16 +12,16 @@ public class Person {
    private String telefono; 
    private String correo; 
    private int estado;
-   private int dni;
+   private String doc;
    private int id_p;
    private int id_d;
 
-    public int getDni() {
-        return dni;
+    public String getDoc() {
+        return doc;
     }
 
-    public void setDni(int dni) {
-        this.dni = dni;
+    public void setDoc(String doc) {
+        this.doc = doc;
     }
 
     public int getId() {
