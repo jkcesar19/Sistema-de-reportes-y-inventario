@@ -25,8 +25,8 @@ public class JFDashboard extends javax.swing.JFrame {
         initComponents();
 
         vita_boton(est);
-//        this.jlabAdmin.setText(usuaa);
-//        this.jlabPerfil.setText(adm + ": ");
+        this.jlabAdmin.setText(usuaa);
+        this.jlabPerfil.setText(adm + ": ");
         LocalDate now = LocalDate.now();
         int year = now.getYear();
         int dia = now.getDayOfMonth();

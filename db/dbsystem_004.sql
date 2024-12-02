@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2024 a las 16:56:29
+-- Tiempo de generación: 02-12-2024 a las 21:53:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,6 +45,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_eliminar_usuario` (IN `_id` INT
 UPDATE usuario SET estado=0 WHERE id = _id;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_registro_articulo` (IN `_id_compra` INT(11), IN `_id_producto` VARCHAR(100), IN `_id_unidad` VARCHAR(29), IN `_cantidad` INT(11), IN `_precio` DOUBLE(11,2), IN `_sub_total` DOUBLE(11,2), IN `_descuento` DOUBLE(11,2), IN `_total` DOUBLE(11,2))   BEGIN
+INSERT INTO articulo(id, id_compra, id_producto, id_unidad, cantidad, precio, sub_total, descuento, igv, total, estado) VALUES (NULL, _id_compra,(SELECT p.id FROM producto p WHERE p.producto = _id_producto),(SELECT u.id FROM unidad_medida u WHERE u.unidad_medida = _id_unidad) , _cantidad, _precio, _sub_total, _descuento,0, _total,1);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_registro_compra` (IN `_codigo` VARCHAR(20), IN `_serie` VARCHAR(20), IN `_id_proveedor` VARCHAR(100), IN `_id_trabajador` VARCHAR(100), IN `_descripcion` VARCHAR(150), IN `_sub_total` DOUBLE(11,2), IN `_descuento` DOUBLE(11,2), IN `_igv` DOUBLE(11,2), IN `_total` DOUBLE(11,2), IN `_archivo` VARCHAR(150), IN `_fecha_compra` VARCHAR(20))   BEGIN
+INSERT INTO compra(id, codigo, serie, id_proveedor, id_trabajador, descripcion, sub_total, descuento, igv, total, archivo, fecha_compra) VALUES (NULL, _codigo, _serie,(SELECT p.id FROM persona p WHERE p.razonsocial = _id_proveedor), (SELECT p.id FROM persona p WHERE p.razonsocial = _id_trabajador), _descripcion, _sub_total, _descuento, _igv, _total, _archivo, _fecha_compra);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_registro_persona` (IN `_razonsocial` VARCHAR(150), IN `_id_documento` INT(11), IN `_num_doc` VARCHAR(15), IN `_direccion` VARCHAR(150), IN `_telefono` VARCHAR(11), IN `_correo` VARCHAR(100), IN `_id_tipo_persona` INT(11))   BEGIN
 INSERT INTO persona(id, razonsocial, id_tipo_documento, num_doc, direccion, telefono, correo, id_tipo_persona, estado) VALUES (null, _razonsocial,_id_documento, _num_doc, _direccion, _telefono, _correo,_id_tipo_persona, 1);
 END$$
@@ -71,15 +79,27 @@ CREATE TABLE `articulo` (
   `id_compra` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `id_unidad` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `precio` double(11,2) NOT NULL,
-  `sub_total` double(11,2) NOT NULL,
-  `descuento` double(11,2) NOT NULL,
-  `total` double(11,2) NOT NULL,
-  `fecha_ingreso` date NOT NULL,
-  `fecha registró` varchar(20) NOT NULL,
+  `cantidad_c` int(11) NOT NULL,
+  `cantidad_v` int(11) NOT NULL,
+  `precio_c` double(11,2) NOT NULL,
+  `precio_v` double(11,2) NOT NULL,
+  `sub_total_c` double(11,2) NOT NULL,
+  `descuento_c` double(11,2) NOT NULL,
+  `igv_c` double(11,2) NOT NULL,
+  `total_c` double(11,2) NOT NULL,
+  `total_v` double(11,2) NOT NULL,
+  `stock_inicial` int(11) NOT NULL,
+  `stock_final` int(11) NOT NULL,
   `estado` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `articulo`
+--
+
+INSERT INTO `articulo` (`id`, `id_compra`, `id_producto`, `id_unidad`, `cantidad_c`, `cantidad_v`, `precio_c`, `precio_v`, `sub_total_c`, `descuento_c`, `igv_c`, `total_c`, `total_v`, `stock_inicial`, `stock_final`, `estado`) VALUES
+(1, 14, 1, 1, 90, 0, 5.00, 0.00, 450.00, 0.00, 0.00, 450.00, 0.00, 0, 0, 1),
+(2, 14, 2, 1, 90, 0, 5.00, 0.00, 450.00, 0.00, 0.00, 450.00, 0.00, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -113,6 +133,19 @@ CREATE TABLE `compra` (
   `fecha_compra` varchar(20) NOT NULL,
   `fech_registro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compra`
+--
+
+INSERT INTO `compra` (`id`, `codigo`, `serie`, `id_proveedor`, `id_trabajador`, `descripcion`, `sub_total`, `descuento`, `igv`, `total`, `archivo`, `fecha_compra`, `fech_registro`) VALUES
+(1, '00001', 'F001-0001', 4, 1, 'COMPRA DE EQUIPO DE COMPUTO MARCA LENOVO Y ACCESRORIOS ', 3600.00, 0.00, 0.00, 3600.00, 'img20240603_15174230.pdf', '14-10-2024', '2024-10-14 21:00:12'),
+(8, '00002', 'F001-0002', 9, 2, 'COMPRA DE EQUIPO DE COMPUTO MARCA HP Y ACCESORIOS', 3000.00, 0.00, 0.00, 3000.00, 'img20240603_15195207.pdf', '15-10-2024', '2024-10-15 16:25:22'),
+(9, '00003', 'F001-0003', 4, 1, 'compra de equipos de computo', 3000.00, 0.00, 0.00, 3000.00, 'img20240603_15195207.pdf', '15-10-2024', '2024-10-15 16:39:15'),
+(11, '00004', 'F001-0004', 9, 2, 'COMPRA DE EQUIPO DE COMPUTO MARCA HP Y ACCESORIOS ', 3000.00, 0.00, 0.00, 3000.00, 'img20240603_15230680.pdf', '15-10-2024', '2024-10-15 16:40:20'),
+(12, '00005', 'F001-0005', 4, 1, 'COMPRA DE ACCESORIOS MARCA LENOVO Y HP ', 3000.00, 0.00, 0.00, 3000.00, 'img20240603_15230680.pdf', '15-10-2024', '2024-10-15 16:40:40'),
+(13, '00013', 'F001-0007', 5, 1, 'COMPRA DE COMPRA DE COMPUTO DE MARCAS HP Y LENOVO ', 480.00, 0.00, 0.00, 480.00, 'img20240603_15223121.pdf', '15-10-2024', '2024-10-15 16:49:41'),
+(14, '00014', 'F007-0008', 4, 1, 'COMPRA DE EQUIPO DE COMPUTO DE MARCA HP Y LENOVO', 900.00, 0.00, 0.00, 900.00, 'img20240603_15223121.pdf', '15-10-2024', '2024-10-15 16:56:16');
 
 -- --------------------------------------------------------
 
@@ -302,6 +335,25 @@ INSERT INTO `usuario` (`id`, `usuario`, `password`, `id_persona`, `id_rol`, `est
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `venta`
+--
+
+CREATE TABLE `venta` (
+  `id` int(11) NOT NULL,
+  `codigo` varchar(15) NOT NULL,
+  `serie` varchar(20) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_trabajador` int(11) NOT NULL,
+  `subtotal` double(11,2) NOT NULL,
+  `descuento` double(11,2) NOT NULL,
+  `igv` double(11,2) NOT NULL,
+  `total` double(11,2) NOT NULL,
+  `fecha_ingreso` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura Stand-in para la vista `vista_persona`
 -- (Véase abajo para la vista actual)
 --
@@ -377,10 +429,10 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indices de la tabla `articulo`
 --
 ALTER TABLE `articulo`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_compra` (`id_compra`),
+  ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `id_producto` (`id_producto`),
-  ADD KEY `id_unidad` (`id_unidad`);
+  ADD KEY `id_compra` (`id_compra`) USING BTREE,
+  ADD KEY `id_unidad` (`id_unidad`) USING BTREE;
 
 --
 -- Indices de la tabla `categoria`
@@ -393,8 +445,8 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_proveedor` (`id_proveedor`),
-  ADD UNIQUE KEY `id_trabajador` (`id_trabajador`);
+  ADD KEY `id_proveedor` (`id_proveedor`) USING BTREE,
+  ADD KEY `id_trabajador` (`id_trabajador`) USING BTREE;
 
 --
 -- Indices de la tabla `marca`
@@ -450,8 +502,20 @@ ALTER TABLE `usuario`
   ADD KEY `id_persona` (`id_persona`);
 
 --
+-- Indices de la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `articulo`
+--
+ALTER TABLE `articulo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -463,7 +527,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
@@ -512,6 +576,12 @@ ALTER TABLE `unidad_medida`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `venta`
+--
+ALTER TABLE `venta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

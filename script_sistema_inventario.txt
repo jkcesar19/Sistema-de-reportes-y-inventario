@@ -87,3 +87,20 @@ BEGIN
 UPDATE producto SET producto = _producto, id_marca=(SELECT m.id FROM marca m WHERE m.marca = _marca),caracteristicas = carac  WHERE id = _id;
 END;
 //
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE COMPRA
+DELIMITER //
+CREATE PROCEDURE pro_registro_compra(IN _codigo VARCHAR(20),IN _serie VARCHAR(20),IN _id_proveedor VARCHAR(100),IN _id_trabajador VARCHAR(100),IN _descripcion VARCHAR(150),IN _sub_total DOUBLE(11,2),IN _descuento DOUBLE(11,2),IN _igv DOUBLE(11,2),IN _total DOUBLE(11,2),IN _archivo VARCHAR(150),IN _fecha_compra VARCHAR(20))
+BEGIN
+INSERT INTO compra(id, codigo, serie, id_proveedor, id_trabajador, descripcion, sub_total, descuento, igv, total, archivo, fecha_compra) VALUES (NULL, _codigo, _serie,(SELECT p.id FROM persona p WHERE p.razonsocial = _id_proveedor),(SELECT p.id FROM persona p WHERE p.razonsocial = _id_trabajador) , _descripcion, _sub_total, _descuento, _igv, _total, _archivo, _fecha_compra);
+END;
+//
+
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE ARTICULO
+DELIMITER //
+CREATE PROCEDURE pro_registro_articulo(IN _id_compra INT(11),IN _id_producto VARCHAR(100),IN _id_unidad VARCHAR(29),IN _cantidad INT(11),IN _precio DOUBLE(11,2),IN _sub_total DOUBLE(11,2),IN _descuento DOUBLE(11,2),IN _total DOUBLE(11,2))
+BEGIN
+INSERT INTO articulo(id, id_compra, id_producto, id_unidad, cantidad, precio, sub_total, descuento, igv, total, estado) VALUES (NULL, _id_compra,(SELECT p.id FROM producto p WHERE p.producto = _id_producto),(SELECT u.id FROM unidad_medida u WHERE u.unidad_medida = _id_unidad) , _cantidad, _precio, _sub_total, _descuento,0, _total,1);
+END;
+//
