@@ -6,9 +6,10 @@ package com.system.identity;
  */
 public class Articulo {
 
-    private int id, cantidad, id_compra;
+    private int id, cantidad, id_compra, stock_inicial, stock_final,est;
     private String id_producto, id_unidad;
     private double precio, sub_total, descuento, total;
+ 
 
     public int getId() {
         return id;
@@ -81,5 +82,29 @@ public class Articulo {
     public void setTotal(double total) {
         this.total = total;
     }
-    
+
+    public int getStock_inicial() {
+        return stock_inicial;
+    }
+
+    public void setStock_inicial(int stock_inicial) {
+        this.stock_inicial = stock_inicial;
+    }
+
+    public int getStock_final() {
+        return stock_final;
+    }
+
+    public void setStock_final(int stock_final) {
+        this.stock_final = stock_final;
+    }
+
+    public int getEst() {
+        return est;
+    }
+
+    public void setEst(int est) {
+        this.est = est;
+    }
+     
 }

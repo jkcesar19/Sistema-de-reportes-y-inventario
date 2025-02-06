@@ -64,6 +64,10 @@ public class JFDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         app_name1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jpDespacho = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jpReporte = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         Header = new javax.swing.JPanel();
         jlabAdmin = new javax.swing.JLabel();
         jlfecha = new javax.swing.JLabel();
@@ -231,6 +235,80 @@ public class JFDashboard extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/system/img/logo_dash.png"))); // NOI18N
         Menu.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 160, 150));
+
+        jpDespacho.setBackground(new java.awt.Color(21, 67, 96));
+        jpDespacho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jpDespachoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jpDespachoMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jpDespachoMousePressed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/system/img/venta.png"))); // NOI18N
+        jLabel6.setText("Despacho");
+
+        javax.swing.GroupLayout jpDespachoLayout = new javax.swing.GroupLayout(jpDespacho);
+        jpDespacho.setLayout(jpDespachoLayout);
+        jpDespachoLayout.setHorizontalGroup(
+            jpDespachoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDespachoLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jpDespachoLayout.setVerticalGroup(
+            jpDespachoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDespachoLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        Menu.add(jpDespacho, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, -1, -1));
+
+        jpReporte.setBackground(new java.awt.Color(21, 67, 96));
+        jpReporte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jpReporteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jpReporteMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jpReporteMousePressed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/system/img/report.png"))); // NOI18N
+        jLabel7.setText("Reporte");
+
+        javax.swing.GroupLayout jpReporteLayout = new javax.swing.GroupLayout(jpReporte);
+        jpReporte.setLayout(jpReporteLayout);
+        jpReporteLayout.setHorizontalGroup(
+            jpReporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpReporteLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jpReporteLayout.setVerticalGroup(
+            jpReporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpReporteLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        Menu.add(jpReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, -1, -1));
 
         Dashboard.add(Menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 680));
 
@@ -437,6 +515,53 @@ public class JFDashboard extends javax.swing.JFrame {
         content.repaint();
     }//GEN-LAST:event_jpAlta_articuloMousePressed
 
+    private void jpDespachoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpDespachoMouseEntered
+        this.jpDespacho.setBackground(new Color(40, 116, 166));
+        this.jpDespacho.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jpDespachoMouseEntered
+
+    private void jpDespachoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpDespachoMouseExited
+        this.jpDespacho.setBackground(new Color(21, 67, 96));
+
+    }//GEN-LAST:event_jpDespachoMouseExited
+
+    private void jpDespachoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpDespachoMousePressed
+        this.jpDespacho.setBackground(new Color(40, 116, 166));
+        tipo_p = 3;
+        // Abrir sección
+        jpDespacho p1 = new jpDespacho();
+        p1.setSize(1039, 520);
+        p1.setLocation(0, 0);
+
+        content.removeAll();
+        content.add(p1, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_jpDespachoMousePressed
+
+    private void jpReporteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpReporteMouseEntered
+        this.jpReporte.setBackground(new Color(40, 116, 166));
+        this.jpReporte.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_jpReporteMouseEntered
+
+    private void jpReporteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpReporteMouseExited
+         this.jpReporte.setBackground(new Color(21, 67, 96));
+    }//GEN-LAST:event_jpReporteMouseExited
+
+    private void jpReporteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpReporteMousePressed
+          this.jpReporte.setBackground(new Color(40, 116, 166));
+      
+        // Abrir sección
+        jpReporte p1 = new jpReporte();
+        p1.setSize(1039, 520);
+        p1.setLocation(0, 0);
+
+        content.removeAll();
+        content.add(p1, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }//GEN-LAST:event_jpReporteMousePressed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -459,13 +584,17 @@ public class JFDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel jlabAdmin;
     private javax.swing.JLabel jlabPerfil;
     private javax.swing.JLabel jlfecha;
     private javax.swing.JPanel jpAlta_articulo;
+    private javax.swing.JPanel jpDespacho;
     private javax.swing.JPanel jpPrincipal;
     private javax.swing.JPanel jpRegistro;
+    private javax.swing.JPanel jpReporte;
     private javax.swing.JPanel jpUsuario;
     // End of variables declaration//GEN-END:variables
 

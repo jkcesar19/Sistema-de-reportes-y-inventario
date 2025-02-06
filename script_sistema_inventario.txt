@@ -22,6 +22,14 @@ FROM persona p
 INNER JOIN tipo_documento td ON td.id_tipo_documento = p.id_tipo_documento
 WHERE p.estado = 1;
 
+-- VISTA DE ARTICULOS
+CREATE VIEW vista_articulo
+AS
+SELECT a.id,p.producto, a.cantidad, a.precio, a.sub_total, a.descuento, a.igv, a.total, a.stock_inicial, a.stock_final
+FROM articulo a
+INNER JOIN producto p ON a.id_producto=p.id
+WHERE a.stock_final>0 AND a.estado=1;
+
 
 -- PROCEDIMIENTO ALMACENADO REGISTRO DE PERSONAS
 DELIMITER //
@@ -101,6 +109,32 @@ END;
 DELIMITER //
 CREATE PROCEDURE pro_registro_articulo(IN _id_compra INT(11),IN _id_producto VARCHAR(100),IN _id_unidad VARCHAR(29),IN _cantidad INT(11),IN _precio DOUBLE(11,2),IN _sub_total DOUBLE(11,2),IN _descuento DOUBLE(11,2),IN _total DOUBLE(11,2))
 BEGIN
-INSERT INTO articulo(id, id_compra, id_producto, id_unidad, cantidad, precio, sub_total, descuento, igv, total, estado) VALUES (NULL, _id_compra,(SELECT p.id FROM producto p WHERE p.producto = _id_producto),(SELECT u.id FROM unidad_medida u WHERE u.unidad_medida = _id_unidad) , _cantidad, _precio, _sub_total, _descuento,0, _total,1);
+INSERT INTO articulo(id, id_compra, id_producto, id_unidad, cantidad, precio, sub_total, descuento, igv, total, stock_inicial, stock_final, estado) VALUES (NULL, _id_compra,(SELECT p.id FROM producto p WHERE p.producto = _id_producto),(SELECT u.id FROM unidad_medida u WHERE u.unidad_medida = _id_unidad) , _cantidad, _precio, _sub_total, _descuento,0, _total,_cantidad,_cantidad,1);
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE DESPACHO
+DELIMITER //
+CREATE PROCEDURE pro_registro_despacho(IN _id_usuario varchar(50),IN _id_personal varchar(50),IN _descripcion varchar(200),IN _numero int(11)) 
+BEGIN
+INSERT INTO des_pacho(id, id_usuario, id_personal, descripcion, numero) 
+VALUES (null,(SELECT p.id FROM persona p WHERE p.razonsocial = _id_usuario),(SELECT p.id FROM persona p WHERE p.razonsocial = _id_personal),_descripcion,_numero);
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO ACTUALIZAR DE ARTICULO STOCK FINAL Y ESTADO
+DELIMITER //
+CREATE PROCEDURE pro_actualizar_articulo_stock_final(IN _id int(11),IN _stock_final int(11), IN est int(11))
+BEGIN
+UPDATE articulo SET stock_final = _stock_final,estado = est WHERE id = _id;
+END;
+//
+
+-- PROCEDIMIENTO ALMACENADO REGISTRO DE DETALLE DESPACHO
+DELIMITER //
+CREATE PROCEDURE pro_ingresar_detalle_despacho(IN _id_despacho int(11),IN _id_articulo int(11),IN _cantidad int(11))
+BEGIN
+INSERT INTO detalle_despacho(id, id_despacho, id_articulo, cantidad) 
+VALUES (null,_id_despacho, _id_articulo, _cantidad);
 END;
 //

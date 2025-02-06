@@ -5,6 +5,7 @@ import com.system.identity.interfaces.ArticuloDao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
@@ -27,8 +28,18 @@ public class ArticuloImpldao implements ArticuloDao {
 
     @Override
     public Vector Lista() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); 
-//To change body of generated methods, choose Tools | Templates.
+       Vector lista = new Vector();
+        String sql = "SELECT id, producto, stock_final FROM vista_articulo";
+        st = con.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()) {
+            Vector usuario = new Vector();
+            usuario.add(rs.getInt("id"));
+            usuario.add(rs.getString("producto"));
+            usuario.add(rs.getInt("stock_final"));
+            lista.add(usuario);
+        }
+        return lista;
     }
 
     @Override
@@ -61,8 +72,19 @@ public class ArticuloImpldao implements ArticuloDao {
 
     @Override
     public boolean modificar(Object object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); 
-//To change body of generated methods, choose Tools | Templates.
+     objArticulo = (Articulo) object;
+        try {
+            String sql = "{CALL,pro_actualizar_articulo_stock_final(?,?,?)}";
+            cst = con.prepareCall(sql);
+            cst.setInt(1, objArticulo.getId());
+            cst.setInt(2, objArticulo.getStock_final());
+            cst.setInt(3, objArticulo.getEst());
+            cst.execute();
+            cst.close();
+            return true;
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 
 }

@@ -1,13 +1,13 @@
 package com.system.view;
 
 import com.system.business.ArticuloBo;
-import com.system.business.CompraBo;
+import com.system.business.DespachoBo;
+import com.system.business.Detalle_DespachoBo;
 import com.system.business.PersonBo;
-import com.system.business.ProductoBo;
-import com.system.business.UnidadBo;
 import com.system.conexion.TextPrompt;
 import com.system.identity.Articulo;
-import com.system.identity.Compra;
+import com.system.identity.Despacho;
+import com.system.identity.Detalle_Despacho;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -18,10 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -29,21 +26,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class jpBaja_articulo extends javax.swing.JPanel {
+public class jpDespacho extends javax.swing.JPanel {
 
     private DefaultTableModel ArticuloTableModel;
-    private DefaultComboBoxModel Unidad_medida;
     private DefaultComboBoxModel Proveedor;
 
     DefaultTableModel modelo2 = new DefaultTableModel();
-    Compra objCompra = new Compra();
+    Despacho objCompra = new Despacho();
     Articulo objArticulo = new Articulo();
+    Detalle_Despacho objDetalle = new Detalle_Despacho();
 
+    private int index = -1;
     private String numero;
     private String serie;
     private String usua;
@@ -57,6 +54,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
     private int id;
     private int canti;
+    private int can;
 
     private double precio;
     private double total;
@@ -67,15 +65,17 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     private double total1;
     private double descuento1;
     private double igv1;
-
+    private boolean st = false;
     private char opt;
 
-    public jpBaja_articulo() {
+    public jpDespacho() {
         initComponents();
         limpiar();
         loadTableMateria();
         loadComboProveedor();
-        
+        personalizarJtable();
+        personalizarJtable1();
+
         numero_compra();
         plaseholder();
     }
@@ -90,26 +90,14 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         jtex_numero = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jtex_descuento1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jtex_Total = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jtex_subtotal1 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jtex_igv1 = new javax.swing.JTextField();
+        jtex_descripcion = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Producto_table = new javax.swing.JTable();
+        Articulo_table = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jtex_fecha = new javax.swing.JTextField();
         btn_agregar = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jtex_cantidad = new javax.swing.JTextField();
-        jtex_precio = new javax.swing.JTextField();
-        jtex_sub_total = new javax.swing.JTextField();
-        jtex_descuento = new javax.swing.JTextField();
-        jtex_total = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         ComboProveedor = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
@@ -131,7 +119,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setText("NUEVA SALIDA");
+        jLabel2.setText("DESPACHO");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 8, 200, 30));
 
         jtex_numero.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -142,76 +130,26 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         jLabel3.setText("#NUM:");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, 40));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("SubTotal: S/.");
-
-        jtex_descuento1.setEditable(false);
-        jtex_descuento1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jtex_descuento1.setText("000.00");
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Total:  S/.");
-
-        jtex_Total.setEditable(false);
-        jtex_Total.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jtex_Total.setText("000.00");
-
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setText("DES. S/.");
-
-        jtex_subtotal1.setEditable(false);
-        jtex_subtotal1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jtex_subtotal1.setText("000.00");
-
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel6.setText("IGV: S/.");
-
-        jtex_igv1.setEditable(false);
-        jtex_igv1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jtex_igv1.setText("000.00");
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtex_subtotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtex_descuento1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtex_igv1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jtex_Total, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jtex_descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtex_subtotal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jtex_descuento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_igv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_Total))
+                .addComponent(jtex_descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de articulos"));
 
-        Producto_table.setModel(new javax.swing.table.DefaultTableModel(
+        Articulo_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -219,14 +157,15 @@ public class jpBaja_articulo extends javax.swing.JPanel {
                 "Articulo"
             }
         ));
-        Producto_table.addMouseListener(new java.awt.event.MouseAdapter() {
+        Articulo_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Producto_tableMouseClicked(evt);
+                Articulo_tableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(Producto_table);
+        jScrollPane1.setViewportView(Articulo_table);
 
-        jtex_fecha.setText("fecha");
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn_agregar.setBackground(new java.awt.Color(10, 95, 1));
         btn_agregar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,59 +194,30 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         btn_agregar.setLayout(btn_agregarLayout);
         btn_agregarLayout.setHorizontalGroup(
             btn_agregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+            .addGroup(btn_agregarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         btn_agregarLayout.setVerticalGroup(
             btn_agregarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_agregarLayout.createSequentialGroup()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(232, 232, 232)
-                .addComponent(jtex_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jtex_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel4.add(btn_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
         jtex_cantidad.setText("cantidad");
-
-        jtex_precio.setText("precio");
-        jtex_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtex_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtex_precioKeyReleased(evt);
+                jtex_cantidadKeyReleased(evt);
             }
         });
+        jPanel4.add(jtex_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 100, 32));
 
-        jtex_sub_total.setText("subtotal");
-
-        jtex_descuento.setText("descuento");
-        jtex_descuento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jtex_descuentoKeyReleased(evt);
-            }
-        });
-
-        jtex_total.setText("total");
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Cliente"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Personal"));
 
         ComboProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -331,22 +241,11 @@ public class jpBaja_articulo extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jtex_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtex_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtex_sub_total, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtex_descuento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtex_total, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,18 +253,11 @@ public class jpBaja_articulo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtex_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_sub_total, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtex_total, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 32, Short.MAX_VALUE))
         );
 
         table_detalle_articulo.setModel(new javax.swing.table.DefaultTableModel(
@@ -373,7 +265,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Descripción", "Unidad", "Cantidad", "Precio", "Sub total", "Descuento", "IGV", "Total"
+                "ID", "DESCRIPCIÓN", "CANTIDAD"
             }
         ));
         jScrollPane4.setViewportView(table_detalle_articulo);
@@ -392,7 +284,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         btnGenerar.setBackground(new java.awt.Color(10, 95, 1));
@@ -505,7 +397,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btn_pdf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -532,41 +424,47 @@ public class jpBaja_articulo extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1035, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -609,21 +507,23 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_pdfMousePressed
 
-    private void Producto_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Producto_tableMouseClicked
+    private void Articulo_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Articulo_tableMouseClicked
         try {
-            int index = Producto_table.getSelectedRow();
-            descri = Producto_table.getValueAt(index, 0).toString();
+            index = Articulo_table.getSelectedRow();
+            id = Integer.parseInt(Articulo_table.getValueAt(index, 0).toString());
+            descri = Articulo_table.getValueAt(index, 1).toString();
+            canti = Integer.parseInt(Articulo_table.getValueAt(index, 2).toString());
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_Producto_tableMouseClicked
+    }//GEN-LAST:event_Articulo_tableMouseClicked
 
     private void jLabel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MousePressed
         registrar();
     }//GEN-LAST:event_jLabel9MousePressed
 
     private void jLabel11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MousePressed
-        this.estilo_windows();
-        this.seleccionar_pdf();
+//        this.estilo_windows();
+//        this.seleccionar_pdf();
     }//GEN-LAST:event_jLabel11MousePressed
 
     private void jLabel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MousePressed
@@ -641,7 +541,6 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
                     modelo2 = (DefaultTableModel) table_detalle_articulo.getModel();
                     modelo2.removeRow(fila);
-                    calculatTotal();
                 }
             }
         } catch (Exception e) {
@@ -667,42 +566,31 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_agregarMousePressed
 
-    private void jtex_precioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtex_precioKeyReleased
-        if (!"".equals(this.jtex_precio.getText())) {
-            int cant = Integer.parseInt(this.jtex_cantidad.getText());
-            double pre = Double.parseDouble(this.jtex_precio.getText());
-            double to = (cant * pre);
-            this.jtex_sub_total.setText("" + to);
-            this.jtex_total.setText("" + to);
+    private void jtex_cantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtex_cantidadKeyReleased
+        if (!"".equals(this.jtex_cantidad.getText())) {
+            can = Integer.parseInt(this.jtex_cantidad.getText());
+            if (canti >= can) {
+            } else {
+                JOptionPane.showMessageDialog(this, " La cantidad ingresad es mayor al stock", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, " Ingrese la cantidad", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_jtex_precioKeyReleased
-
-    private void jtex_descuentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtex_descuentoKeyReleased
-        if (!"".equals(this.jtex_descuento.getText())) {
-            double sub = Double.parseDouble(this.jtex_sub_total.getText());
-            double des = Double.parseDouble(this.jtex_descuento.getText());
-            double to = (sub - des);
-            this.jtex_total.setText("" + to);
-        }
-    }//GEN-LAST:event_jtex_descuentoKeyReleased
+    }//GEN-LAST:event_jtex_cantidadKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Articulo_table;
     private javax.swing.JComboBox<String> ComboProveedor;
-    private javax.swing.JTable Producto_table;
     private javax.swing.JPanel btnEliminar;
     private javax.swing.JPanel btnGenerar;
     private javax.swing.JPanel btn_agregar;
     private javax.swing.JPanel btn_pdf;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -714,32 +602,22 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jtex_Total;
     private javax.swing.JTextField jtex_cantidad;
-    private javax.swing.JTextField jtex_descuento;
-    private javax.swing.JTextField jtex_descuento1;
-    private javax.swing.JTextField jtex_fecha;
-    private javax.swing.JTextField jtex_igv1;
+    private javax.swing.JTextField jtex_descripcion;
     private javax.swing.JLabel jtex_numero;
-    private javax.swing.JTextField jtex_precio;
-    private javax.swing.JTextField jtex_sub_total;
-    private javax.swing.JTextField jtex_subtotal1;
-    private javax.swing.JTextField jtex_total;
     private javax.swing.JTable table_detalle_articulo;
     // End of variables declaration//GEN-END:variables
 
     private void loadTableMateria() {
         try {
             TableColumn columna;
-            this.ArticuloTableModel = ProductoBo.ListaTable();
-            this.Producto_table.setModel(this.ArticuloTableModel);
-//            setAnchoColumnas();
-            columna = this.Producto_table.getColumnModel().getColumn(0);
+            this.ArticuloTableModel = ArticuloBo.ListaTable();
+            this.Articulo_table.setModel(this.ArticuloTableModel);
+            columna = this.Articulo_table.getColumnModel().getColumn(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     private void loadComboProveedor() {
         try {
@@ -756,7 +634,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     private void numero_compra() {
 
         try {
-            String serie = CompraBo.NumId();
+            String serie = DespachoBo.NumId();
             if (serie == null) {
                 jtex_numero.setText("00001");
             } else {
@@ -784,74 +662,49 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     private void cargar_ragistro_compra() {
         modelo2 = (DefaultTableModel) table_detalle_articulo.getModel();
         ArrayList lista = new ArrayList();
-        if (descri != null) {
+        if (id != 0) {
+            lista.add(id);
             lista.add(descri);
-            lista.add(unidad);
             lista.add(canti);
-            lista.add(precio);
-            lista.add(subtotal1);
-            lista.add(descuento);
-            lista.add(igv);
-            lista.add(total);
-            Object[] ob = new Object[8];
+            Object[] ob = new Object[3];
             ob[0] = lista.get(0);
             ob[1] = lista.get(1);
             ob[2] = lista.get(2);
-            ob[3] = lista.get(3);
-            ob[4] = lista.get(4);
-            ob[5] = lista.get(5);
-            ob[6] = lista.get(6);
-            ob[7] = lista.get(7);
 
             modelo2.addRow(ob);
+            limpiar();
             limpiar_variables();
             table_detalle_articulo.setModel(modelo2);
-            calculatTotal();
 
         }
-    }
-
-    private void calculatTotal() {
-        double tot = 0.0, sbto = 0.0, des = 0.0, igv = 0.0;
-        for (int i = 0; i < table_detalle_articulo.getRowCount(); i++) {
-            subtotal1 = Double.parseDouble(table_detalle_articulo.getValueAt(i, 4).toString());
-            descuento1 = Double.parseDouble(table_detalle_articulo.getValueAt(i, 5).toString());
-            igv1 = Double.parseDouble(table_detalle_articulo.getValueAt(i, 6).toString());
-            total1 = Double.parseDouble(table_detalle_articulo.getValueAt(i, 7).toString());
-
-            sbto = redondear(sbto + subtotal1);
-            des = redondear(des + descuento1);
-            igv = redondear(igv + igv1);
-            tot = redondear(tot + total1);
-        }
-        this.jtex_subtotal1.setText("" + sbto + "0");
-        this.jtex_descuento1.setText("" + des + "0");
-        this.jtex_igv1.setText("" + igv + "0");
-        this.jtex_Total.setText("" + tot + "0");
-
     }
 
     private void limpiar_variables() {
-//        id = 0;
-//        descri = "";
-////        dias = 0;
-////        horas = 0;
-//        precio = 0.0;
-//        total = 0.0;
+        descri = "";
+        canti = 0;
     }
 
     private void registrar() {
         try {
-            cargar_datos_compra();
 
-            String idT = CompraBo.NumId();
-            id = Integer.parseInt(idT);
-            System.out.println("id de compra " + id);
+            cargar_datos_despacho();
 
-            guardar_articulo();
+            if (st == true) {
+                String idT = DespachoBo.NumId();
+                id = Integer.parseInt(idT);
+                System.out.println("id de compra " + id);
 
-            limpiarTodo();
-            numero_compra();
+                actualizar_articulo();
+
+                guardar_detalle_despacho();
+
+                limpiarTodo();
+                loadTableMateria();
+                personalizarJtable1();
+
+                numero_compra();
+                limpiarDescrip();
+            }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error " + ex);
@@ -861,45 +714,48 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
     private void guardar_compra() {
         try {
-            objCompra.setId_trabajador(JFDashboard.usuaa);
-            objCompra.setId_proveedor(this.ComboProveedor.getSelectedItem().toString());
-            objCompra.setFecha_compra(this.jtex_fecha.getText());
-           
-            objCompra.setCodigo(this.jtex_numero.getText());
-        
-            objCompra.setSub_total(Double.parseDouble(this.jtex_subtotal1.getText()));
-            objCompra.setIgv(Double.parseDouble(this.jtex_igv1.getText()));
-            objCompra.setDescuento(Double.parseDouble(this.jtex_descuento1.getText()));
-            objCompra.setTotal(Double.parseDouble(this.jtex_Total.getText()));
-            objCompra.setArchivo(this.archivo);
+            objCompra.setId_usuario(JFDashboard.usuaa);
+            objCompra.setId_personal(this.ComboProveedor.getSelectedItem().toString());
+            objCompra.setDescripcion(this.jtex_descripcion.getText());
+            objCompra.setNumero(Integer.parseInt(this.jtex_numero.getText()));
 
-            this.guardar_archivo_folder();
-
-            if (CompraBo.grabarCompra(objCompra)) {
-                JOptionPane.showMessageDialog(this, "Se Registró Correctamente", "MENSAJE --> Compra", JOptionPane.INFORMATION_MESSAGE);
+            if (DespachoBo.grabarDespacho(objCompra)) {
+                JOptionPane.showMessageDialog(this, "Se Registró Correctamente", "MENSAJE --> Despacho", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "No se pudo Registrar", "MENSAJE --> Compra", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se pudo Registrar", "MENSAJE --> Despacho", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "MENSAJE --> COMPRA", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "MENSAJE --> DESPACHO", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void guardar_articulo() {
+    private void guardar_detalle_despacho() {
         try {
-
             for (int i = 0; i < table_detalle_articulo.getRowCount(); i++) {
-                objArticulo.setId_compra(id);
-                objArticulo.setId_producto(table_detalle_articulo.getValueAt(i, 0).toString());
-                objArticulo.setId_unidad(table_detalle_articulo.getValueAt(i, 1).toString());
-                objArticulo.setCantidad(Integer.parseInt(table_detalle_articulo.getValueAt(i, 2).toString()));
-                objArticulo.setPrecio(Double.parseDouble(table_detalle_articulo.getValueAt(i, 3).toString()));
-                objArticulo.setSub_total(Double.parseDouble(table_detalle_articulo.getValueAt(i, 4).toString()));
-                objArticulo.setDescuento(Double.parseDouble(table_detalle_articulo.getValueAt(i, 5).toString()));
-                objArticulo.setTotal(Double.parseDouble(table_detalle_articulo.getValueAt(i, 7).toString()));
+                objDetalle.setId_despacho(id);
+                objDetalle.setId_articulo(Integer.parseInt(table_detalle_articulo.getValueAt(i, 0).toString()));
+                objDetalle.setCantidad(Integer.parseInt(table_detalle_articulo.getValueAt(i, 2).toString()));
+                Detalle_DespachoBo.grabarDetalle_Despacho(objDetalle);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "MENSAJE --> DETALLE TICKET", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-                ArticuloBo.grabarArticulo(objArticulo);
+    private void actualizar_articulo() {
+        try {
+            for (int i = 0; i < Articulo_table.getRowCount(); i++) {
+                objArticulo.setId(Integer.parseInt(Articulo_table.getValueAt(i, 0).toString()));
+                objArticulo.setStock_final(Integer.parseInt(Articulo_table.getValueAt(i, 2).toString()));
+                int sta = Integer.parseInt(Articulo_table.getValueAt(i, 2).toString());
+                if (sta != 0) {
+                    objArticulo.setEst(1);
+                } else {
+                    objArticulo.setEst(0);
+                }
+
+                ArticuloBo.ModificarArticulo(objArticulo);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "MENSAJE --> DETALLE TICKET", JOptionPane.ERROR_MESSAGE);
@@ -907,14 +763,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     }
 
     private void limpiarTodo() {
-        this.jtex_descuento1.setText("");
-        this.jtex_igv1.setText("");
-       
-        this.jtex_fecha.setText("");
-        this.jtex_Total.setText("");
-        this.jtex_subtotal1.setText("");
-        
-        this.archivo = "";
+
         for (int i = 0; i < modelo2.getRowCount(); i++) {
             modelo2.removeRow(i);
             i = i - 1;
@@ -922,24 +771,14 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     }
 
     private void limpiar() {
-     
-        this.jtex_fecha.setText("");
-        
+
         this.jtex_cantidad.setText("");
-        this.jtex_total.setText("");
-        this.jtex_descuento.setText("");
-        this.jtex_sub_total.setText("");
-        this.jtex_precio.setText("");
+
     }
 
     private void plaseholder() {
         TextPrompt prueba0 = new TextPrompt("Cantidad", this.jtex_cantidad);
-        TextPrompt prueba1 = new TextPrompt("Total", this.jtex_total);
-        TextPrompt prueba2 = new TextPrompt("Ingrese la fecha", this.jtex_fecha);
-        TextPrompt prueba3 = new TextPrompt("Descuento", this.jtex_descuento);
-      
-        TextPrompt prueba6 = new TextPrompt("Subtotal", this.jtex_sub_total);
-        TextPrompt prueba7 = new TextPrompt("Precio", this.jtex_precio);
+        TextPrompt prueba1 = new TextPrompt("Ingrese una descripción de los articulos entregados al personal", this.jtex_descripcion);
     }
 
     private double redondear(double num) {
@@ -948,11 +787,11 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
     private void cargar_datos() {
         if (!"".equals(descri)) {
-            if (this.jtex_total.getText().equals("") || this.jtex_cantidad.getText().equals("")
-                    || this.jtex_precio.getText().equals("") || this.jtex_sub_total.getText().equals("")) {
-
-                javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos, ¡ANIMAL!\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            if (this.jtex_cantidad.getText().equals("")) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos, ¡POR FAVOR!\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             } else {
+                int total = canti - can;
+                ArticuloTableModel.setValueAt(total, index, 2);
                 cargar_varibles();
                 cargar_ragistro_compra();
             }
@@ -962,13 +801,8 @@ public class jpBaja_articulo extends javax.swing.JPanel {
     }
 
     private void cargar_varibles() {
-       
-        igv = 0.0;
         canti = Integer.parseInt(this.jtex_cantidad.getText());
-        total = Double.parseDouble(this.jtex_total.getText());
-        descuento = Double.parseDouble(this.jtex_descuento.getText());
-        subtotal1 = Double.parseDouble(this.jtex_sub_total.getText());
-        precio = Double.parseDouble(this.jtex_precio.getText());
+
     }
 
     private void estilo_windows() {
@@ -976,7 +810,7 @@ public class jpBaja_articulo extends javax.swing.JPanel {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(jpBaja_articulo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jpDespacho.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1020,13 +854,35 @@ public class jpBaja_articulo extends javax.swing.JPanel {
 
     }
 
-    private void cargar_datos_compra() {
-        if ( this.jtex_fecha.getText().equals("")) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe llenar todos los campos, ¡ANIMAL!\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        } else if (!"".equals(this.archivo)) {
-            System.out.println("Archivo cargado " + archivo);
-            javax.swing.JOptionPane.showMessageDialog(this, "Seleccione el archivo PDF, ¡ANIMAL!\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    private void cargar_datos_despacho() {
+        if (this.jtex_descripcion.getText().equals("")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Escriba la descripción, ¡POR favor!\n", "AVISO", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            st = false;
+        } else {
+            guardar_compra();
+            st = true;
         }
-        guardar_compra();
+
+    }
+
+    private void personalizarJtable() {
+        this.table_detalle_articulo.getColumnModel().getColumn(0).setMinWidth(40);
+        this.table_detalle_articulo.getColumnModel().getColumn(0).setMaxWidth(40);
+
+        this.table_detalle_articulo.getColumnModel().getColumn(2).setMinWidth(90);
+        this.table_detalle_articulo.getColumnModel().getColumn(2).setMaxWidth(90);
+    }
+
+    private void personalizarJtable1() {
+
+        this.Articulo_table.getColumnModel().getColumn(0).setMinWidth(40);
+        this.Articulo_table.getColumnModel().getColumn(0).setMaxWidth(40);
+
+        this.Articulo_table.getColumnModel().getColumn(2).setMinWidth(50);
+        this.Articulo_table.getColumnModel().getColumn(2).setMaxWidth(50);
+    }
+
+    private void limpiarDescrip() {
+     this.jtex_descripcion.setText("");
     }
 }
